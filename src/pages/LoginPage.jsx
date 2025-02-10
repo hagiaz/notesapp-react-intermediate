@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LoginInput from '../components/LoginInput';
 import { login } from '../utils/api';
+import translations from "../utils/locales";
+import { LocaleConsumer } from "../contexts/LocaleContext";
  
 function LoginPage({ loginSuccess }) {
   async function onLogin({ email, password }) {
@@ -15,11 +17,15 @@ function LoginPage({ loginSuccess }) {
   }
  
   return (
-    <section className='login-page'>
-      <h2>Masuk</h2>
-      <LoginInput login={onLogin} />
-      <p>Belum punya akun? <Link to="/register">Daftar</Link></p>
-    </section>
+    <LocaleConsumer>
+      {({ locale }) => (
+        <section className='login-page'>
+          <h2>{translations[locale].login}</h2>
+          <LoginInput login={onLogin} />
+          <p>{translations[locale].didNotHave} <Link to="/register">{translations[locale].register}</Link></p>
+        </section>
+      )}
+    </LocaleConsumer>
   );
 }
  

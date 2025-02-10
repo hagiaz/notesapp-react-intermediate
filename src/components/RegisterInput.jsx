@@ -21,7 +21,7 @@ function RegisterInput({ register }) {
     <form onSubmit={onSubmitHandler} className='register-input'>
       <input
         type="text"
-        placeholder="Nama"
+        placeholder="Name"
         value={name.value}
         onChange={name.onChange}
       />

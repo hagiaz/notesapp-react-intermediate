@@ -9,8 +9,10 @@ import DetailPage from "../pages/DetailPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
-import { getUserLogged, putAccessToken } from '../utils/api';
+import Footer from "./Footer"; // Now inside NoteApp
+import { getUserLogged, putAccessToken } from "../utils/api";
 import { ThemeProvider } from "../contexts/ThemeContext";
+import { LocaleProvider } from "../contexts/LocaleContext";
 
 class NoteApp extends Component {
     constructor(props) {
@@ -18,7 +20,22 @@ class NoteApp extends Component {
         this.state = {
             authedUser: null,
             initializing: true,
-            theme: localStorage.getItem('theme') || 'light',
+            theme: localStorage.getItem("theme") || "light",
+            localeContext: {
+                locale: localStorage.getItem("locale") || "id",
+                toggleLocale: () => {
+                    this.setState((prevState) => {
+                        const newLocale = prevState.localeContext.locale === "id" ? "en" : "id";
+                        localStorage.setItem("locale", newLocale);
+                        return {
+                            localeContext: {
+                                ...prevState.localeContext,
+                                locale: newLocale,
+                            },
+                        };
+                    });
+                },
+            },
         };
 
         this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -33,20 +50,16 @@ class NoteApp extends Component {
             return { theme: newTheme };
         });
     }
-
+    
     async onLoginSuccess({ accessToken }) {
         putAccessToken(accessToken);
         const { data } = await getUserLogged();
-        this.setState(() => ({
-            authedUser: data,
-        }));
+        this.setState({ authedUser: data });
     }
-
+    
     onLogout() {
-        putAccessToken('');
-        this.setState(() => ({
-            authedUser: null
-        }));
+        this.setState({ authedUser: null });
+        putAccessToken("");
     }
 
     async componentDidMount() {
@@ -73,40 +86,36 @@ class NoteApp extends Component {
             return null;
         }
 
-        if (this.state.authedUser === null) {
-            return (
-                <div className="notes-app">
-                    <header>
-                        <h1 className="app-name">NotesApp</h1>
-                    </header>
-                    <main>
-                        <Routes>
-                            <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
-                            <Route path="/register" element={<RegisterPage />} />
-                        </Routes>
-                    </main>
-                </div>
-            );
-        }
-
         return (
-            <ThemeProvider value={{ theme: this.state.theme, toggleTheme: this.toggleTheme }}>
-                <div className="notes-app">
-                    <header>
-                        <Navigation logout={this.onLogout} name={this.state.authedUser.name} />
-                        <h1 className="app-name">NotesApp</h1>
-                    </header>
-                    <main>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/add" element={<AddNote />} />
-                            <Route path="/archived" element={<ArchivedNotes />} />
-                            <Route path="/detail/:id" element={<DetailPage />} />
-                            <Route path="/*" element={<NotFoundPage />} />
-                        </Routes>
-                    </main>
-                </div>
-            </ThemeProvider>
+            <LocaleProvider value={this.state.localeContext}>
+                <ThemeProvider value={{ theme: this.state.theme, toggleTheme: this.toggleTheme }}>
+                    <div className="notes-app">
+                        <header>
+                            <Navigation logout={this.onLogout} name={this.state.authedUser?.name || "Guest"} />
+                            <h1>{this.state.localeContext.locale === "id" ? "Aplikasi Catatan" : "Notes App"}</h1>
+                        </header>
+                        <main>
+                            <Routes>
+                                {this.state.authedUser ? (
+                                    <>
+                                        <Route path="/" element={<HomePage />} />
+                                        <Route path="/add" element={<AddNote />} />
+                                        <Route path="/archived" element={<ArchivedNotes />} />
+                                        <Route path="/detail/:id" element={<DetailPage />} />
+                                        <Route path="/*" element={<NotFoundPage />} />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Route path="/*" element={<LoginPage loginSuccess={this.onLoginSuccess} />} />
+                                        <Route path="/register" element={<RegisterPage />} />
+                                    </>
+                                )}
+                            </Routes>
+                        </main>
+                        <Footer />
+                    </div>
+                </ThemeProvider>
+            </LocaleProvider>
         );
     }
 }

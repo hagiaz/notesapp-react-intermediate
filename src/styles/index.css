@@ -79,7 +79,7 @@ body {
   text-decoration: underline;
 }
 
-.logout-button, .theme-button {
+.logout-button, .theme-button, .locale-button {
   background: none;
   border: none;
   font-size: 18px;
