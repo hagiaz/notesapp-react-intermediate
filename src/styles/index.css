@@ -1,0 +1,435 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+   
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f5f5f5; /* Softer background color */
+    color: #333;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    background-color: #333;
+  }
+  
+  .navbar-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-links li {
+    display: inline;
+    color: white;
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .navbar-links a:hover {
+    text-decoration: underline;
+  }
+
+  .logout-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .logout-button:hover {
+    color: red;
+  }
+   
+  .notes-app {
+    margin: 0 auto;
+  }
+   
+  .notes-app h1 {
+    font-weight: bold;
+    font-size: 48px;
+    margin-top: 24px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  
+  .notes-app h2 {
+    font-weight: bold;
+    font-size: 32px;
+    margin: 15px 0px;
+    text-align: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+}
+
+.search-bar::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+   
+  .note-item {
+    display: flex;
+    align-items: flex-start;
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .note-item__body {
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 3px solid #eee;
+    flex: 1;
+  }
+
+  main{
+    width: 70%;
+    margin: 0 auto;
+    min-height: calc(65vh - 70px);
+  }
+
+  .archived-note-item {
+    display: flex;
+    align-items: flex-start;
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #eee;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+
+  .archived-note-item__body {
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 3px solid gray;
+    flex: 1;
+  }
+  
+  .note-item__title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .note-item__note {
+    color: #464646;
+    font-size: 0.9em;
+  }
+
+  .note-item__time {
+    color: #9c9c9c;
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+   
+  .note-item__delete, .note-item__archive {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .note-item__delete {
+    background-color: #e74c3c;
+    margin-left: 8px;
+  }
+  
+  .note-item__delete:hover {
+    background-color: #c0392b;
+  }
+  
+  .note-item__archive {
+    background-color: #8e44ad;
+  }
+  
+  .note-item__archive:hover {
+    background-color: #732d91;
+  }
+  
+  .note-input {
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 32px;
+  }
+  
+  .note-input p {
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  
+  .note-input h3 {
+    margin: 8px 0px;
+  }
+  
+  .note-input textarea {
+    background-color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+   
+  .note-input input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  
+  .note-input input:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 4px rgba(142, 68, 173, 0.4);
+  }
+   
+  .note-input button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 12px;
+  }
+  
+  .note-input button:hover {
+    background-color: #2980b9;
+  }
+  
+  .note-app h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+
+  .note-list {
+    margin: 32px 0;
+  }
+
+  .note-list h2{
+    font-weight: lighter;
+  }
+
+  .notes-detail > h4 {
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 400;
+  }
+
+  .notes-detail > h3 {
+    margin-top: 25px;
+    font-weight: 500;
+  }
+  
+  .footer {
+    justify-content: center;
+    padding: 16px;
+    background-color: #333;
+    margin-top: 20px;
+  }
+  
+  .footer-text {
+    color: white;
+    text-decoration: none;
+    margin: 20px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .register-page > p {
+    text-align: center;
+    padding-bottom: 25px;
+  }
+
+  .register-input {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-input input {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .register-input input:focus {
+      border-color: #8e44ad;
+      outline: none;
+      box-shadow: 0 0 4px rgba(142, 68, 173, 0.4);
+  }
+
+  .register-input button {
+      padding: 12px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin-top: 12px;
+  }
+
+  .register-input button:hover {
+      background-color: #2980b9;
+  }
+
+  .login-page {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .login-page h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .login-input {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .login-input input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  
+  .login-input input:focus {
+    border-color: #8e44ad;
+    outline: none;
+    box-shadow: 0 0 4px rgba(142, 68, 173, 0.4);
+  }
+  
+  .login-input button {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 12px;
+  }
+  
+  .login-input button:hover {
+    background-color: #2980b9;
+  }
+  
+  .login-page p {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .login-page a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .login-page a:hover {
+    text-decoration: underline;
+  }
+  
+
+  @media screen and (max-width: 600px) {
+    .notes-app h1 {
+      font-weight: bold;
+      font-size: 32px;
+    }
+
+    .navbar {
+      justify-content: center;
+    }
+
+    .navbar-links > .tagline {
+      display: none;
+    }
+
+    .note-item {
+      display: block;
+    }
+
+    .archived-note-item {
+      display: block;
+    }
+
+    .note-item__time {
+      margin-bottom: 20px;
+  }
+  }
