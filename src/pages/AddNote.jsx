@@ -10,7 +10,7 @@ function AddNote() {
     async function onAddNoteHandler(note) {
         const { error } = await addNote(note);
         if (!error) {
-            navigate("/"); // Redirect to homepage after adding a note
+            navigate("/");
         } else {
             alert("Failed to add note. Please try again.");
         }

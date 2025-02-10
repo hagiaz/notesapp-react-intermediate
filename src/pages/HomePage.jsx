@@ -13,14 +13,15 @@ function HomePageWrapper() {
     }
    
     return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
-  }
+}
 
-  class HomePage extends React.Component {
+class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             notes: [],
             keyword: props.defaultKeyword || '',
+            isLoading: true,
         };
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
@@ -30,7 +31,7 @@ function HomePageWrapper() {
     async componentDidMount() {
         const { error, data } = await getActiveNotes();
         if (!error) {
-            this.setState({ notes: data });
+            this.setState({ notes: data, isLoading: false });
         }
     }
 
@@ -56,20 +57,25 @@ function HomePageWrapper() {
     }
 
     render() {
-        const filteredNotes = this.state.notes.filter((note) =>
-            note.title.toLowerCase().includes(this.state.keyword.toLowerCase())
+        const { isLoading, notes, keyword } = this.state;
+
+        const filteredNotes = notes.filter((note) =>
+            note.title.toLowerCase().includes(keyword.toLowerCase())
         );
 
         return (
             <div className="notes-app">
                 <h2>Note List</h2>
-                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-                <NoteList notes={filteredNotes} onDelete={this.onDeleteHandler} onStatusChange={this.onStatusChangeHandler} />
+                <SearchBar keyword={keyword} keywordChange={this.onKeywordChangeHandler} />
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <NoteList notes={filteredNotes} onDelete={this.onDeleteHandler} onStatusChange={this.onStatusChangeHandler} />
+                )}
             </div>
         );
     }
 }
-
 
 HomePage.propTypes = {
     defaultKeyword: PropTypes.string,

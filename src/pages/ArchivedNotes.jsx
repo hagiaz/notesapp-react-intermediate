@@ -7,6 +7,7 @@ class ArchivedNotes extends React.Component {
         super(props);
         this.state = {
             notes: [],
+            isLoading: true,
         };
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
@@ -15,7 +16,7 @@ class ArchivedNotes extends React.Component {
     async componentDidMount() {
         const { error, data } = await getArchivedNotes();
         if (!error) {
-            this.setState({ notes: data });
+            this.setState({ notes: data, isLoading: false });
         }
     }
 
@@ -36,14 +37,20 @@ class ArchivedNotes extends React.Component {
     }
 
     render() {
+        const { isLoading, notes } = this.state;
+
         return (
             <div className="notes-app">
                 <h2>Archived Note List</h2>
-                <NoteList 
-                    notes={this.state.notes} 
-                    onDelete={this.onDeleteHandler} 
-                    onStatusChange={this.onStatusChangeHandler} 
-                />
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <NoteList 
+                        notes={notes} 
+                        onDelete={this.onDeleteHandler} 
+                        onStatusChange={this.onStatusChangeHandler} 
+                    />
+                )}
             </div>
         );
     }
