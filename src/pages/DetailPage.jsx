@@ -14,20 +14,42 @@ class DetailPage extends React.Component {
         super(props);
 
         this.state = {
-            note: getNote(props.id),
+            note: null, // Initially set to null to indicate loading state
+            isLoading: true,
         };
     }
 
-    componentDidUpdate(prevProps) {
+    async componentDidMount() {
+        const response = await getNote(this.props.id);
+        const note = response.data; // Accessing the 'data' property
+        if (!note) {
+            console.error("Note not found:", this.props.id);
+            return;
+        }
+        this.setState({
+            note,
+            isLoading: false,
+        });
+    }
+    
+    async componentDidUpdate(prevProps) {
         if (prevProps.id !== this.props.id) {
+            this.setState({ isLoading: true });
+            const response = await getNote(this.props.id);
+            const note = response.data; // Accessing the 'data' property
             this.setState({
-                note: getNote(this.props.id),
+                note,
+                isLoading: false,
             });
         }
     }
 
     render() {
-        const { note } = this.state;
+        const { note, isLoading } = this.state;
+
+        if (isLoading) {
+            return <p>Loading...</p>;
+        }
 
         if (!note) {
             return (

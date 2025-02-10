@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { showFormattedDate } from '../utils/data';
+import { showFormattedDate } from '../utils/api';
 
 function NoteDetail({ id, title, body, createdAt }) {
     const date = showFormattedDate(createdAt);
